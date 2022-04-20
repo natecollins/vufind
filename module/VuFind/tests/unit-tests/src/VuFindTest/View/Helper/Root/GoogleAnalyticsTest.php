@@ -43,26 +43,13 @@ class GoogleAnalyticsTest extends \PHPUnit\Framework\TestCase
     use \VuFindTest\Feature\ViewTrait;
 
     /**
-     * Test the helper (old mode)
+     * Test the helper (basic setup)
      *
      * @return void
      */
-    public function testOldSetup(): void
+    public function testBasicSetup(): void
     {
-        $output = $this->renderGA('myfakekey', false);
-        $this->assertTrue(false !== strstr($output, 'ga.js'));
-        $this->assertFalse(strstr($output, 'analytics.js'));
-        $this->assertTrue(false !== strstr($output, 'myfakekey'));
-    }
-
-    /**
-     * Test the helper (Universal Analytics mode)
-     *
-     * @return void
-     */
-    public function testNewSetup(): void
-    {
-        $output = $this->renderGA('myfakekey', true);
+        $output = $this->renderGA('myfakekey');
         $this->assertTrue(false !== strstr($output, 'analytics.js'));
         $this->assertFalse(strstr($output, 'ga.js'));
         $this->assertTrue(false !== strstr($output, 'myfakekey'));
@@ -94,7 +81,7 @@ class GoogleAnalyticsTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefaultCreateOptions(): void
     {
-        $output = $this->renderGA('myfakekey', true);
+        $output = $this->renderGA('myfakekey');
         // Confirm that the default JS appears in the output:
         $expectedJs = "ga('create', 'myfakekey', 'auto');";
         $this->assertTrue(false !== strstr($output, $expectedJs));
@@ -113,8 +100,8 @@ class GoogleAnalyticsTest extends \PHPUnit\Framework\TestCase
     /**
      * Render the GA code
      *
-     * @param string     $key     GA key (false for disabled)
-     * @param array|bool $options Options for GA helper
+     * @param string $key     GA key (false for disabled)
+     * @param array  $options Options for GA helper
      *
      * @return string
      */
